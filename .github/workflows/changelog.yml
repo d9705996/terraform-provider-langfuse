@@ -14,8 +14,8 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
       - name: Generate changelog
         uses: orhun/git-cliff-action@v2
-        with:
-          output: CHANGELOG.md
+        env:
+          OUTPUT: CHANGELOG.md
       - name: Commit and push changelog
         run: |
           git add CHANGELOG.md

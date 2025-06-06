@@ -24,4 +24,5 @@ The `username` and `password` can alternatively be provided via the `LANGFUSE_US
 
 * [langfuse_project](data-sources/project.md)
 * [langfuse_project_api_keys](data-sources/project_api_keys.md)
+* [langfuse_prompt](data-sources/prompt.md)
 
