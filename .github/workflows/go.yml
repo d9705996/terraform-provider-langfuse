@@ -24,7 +24,6 @@ jobs:
         with:
           version: v1.55
           args: --timeout=5m
-          reporter: github-pr-review
           only-new-issues: true
       - name: Test
         run: go test ./...
