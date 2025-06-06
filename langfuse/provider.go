@@ -33,7 +33,7 @@ func Provider() *schema.Provider {
 			"host": {
 				Type:        schema.TypeString,
 				Optional:    true,
-				Default:     "https://cloud.langfuse.com",
+				DefaultFunc: schema.EnvDefaultFunc("LANGFUSE_HOST", "https://cloud.langfuse.com"),
 				Description: "Base URL for Langfuse API",
 			},
 			"username": {

@@ -13,7 +13,7 @@ provider "langfuse" {
 }
 ```
 
-The `username` and `password` can alternatively be provided via the `LANGFUSE_USERNAME` and `LANGFUSE_PASSWORD` environment variables.
+The `host` can also be set via the `LANGFUSE_HOST` environment variable. The `username` and `password` can alternatively be provided via the `LANGFUSE_USERNAME` and `LANGFUSE_PASSWORD` environment variables.
 
 ## Resources
 
