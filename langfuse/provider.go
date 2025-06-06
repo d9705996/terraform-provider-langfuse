@@ -103,12 +103,15 @@ func (c *apiClient) doRequest(ctx context.Context, method, path string, body int
 			return err
 		}
 		req, err = http.NewRequestWithContext(ctx, method, u.String(), bytes.NewReader(b))
+		if err != nil {
+			return err
+		}
 		req.Header.Set("Content-Type", "application/json")
 	} else {
 		req, err = http.NewRequestWithContext(ctx, method, u.String(), nil)
-	}
-	if err != nil {
-		return err
+		if err != nil {
+			return err
+		}
 	}
 	req.SetBasicAuth(c.username, c.password)
 
@@ -116,7 +119,12 @@ func (c *apiClient) doRequest(ctx context.Context, method, path string, body int
 	if err != nil {
 		return err
 	}
-	defer resp.Body.Close()
+	defer func() {
+		cerr := resp.Body.Close()
+		if cerr != nil {
+			fmt.Printf("error closing response body: %v\n", cerr)
+		}
+	}()
 
 	if resp.StatusCode >= 400 {
 		b, _ := io.ReadAll(resp.Body)

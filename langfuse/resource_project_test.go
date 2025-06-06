@@ -15,14 +15,18 @@ func TestAccProjectResource(t *testing.T) {
 		switch r.Method {
 		case http.MethodPost:
 			var req map[string]interface{}
-			json.NewDecoder(r.Body).Decode(&req)
+			if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+				t.Fatalf("decode request: %v", err)
+			}
 			resp := map[string]interface{}{
 				"id":            "1",
 				"name":          req["name"],
 				"metadata":      req["metadata"],
 				"retentionDays": int(req["retention"].(float64)),
 			}
-			json.NewEncoder(w).Encode(resp)
+			if err := json.NewEncoder(w).Encode(resp); err != nil {
+				t.Fatalf("encode response: %v", err)
+			}
 		case http.MethodGet:
 			resp := map[string]interface{}{
 				"id":            "1",
@@ -30,7 +34,9 @@ func TestAccProjectResource(t *testing.T) {
 				"metadata":      map[string]interface{}{"a": "b"},
 				"retentionDays": 5,
 			}
-			json.NewEncoder(w).Encode(resp)
+			if err := json.NewEncoder(w).Encode(resp); err != nil {
+				t.Fatalf("encode response: %v", err)
+			}
 		case http.MethodPut:
 			resp := map[string]interface{}{
 				"id":            "1",
@@ -38,7 +44,9 @@ func TestAccProjectResource(t *testing.T) {
 				"metadata":      map[string]interface{}{"a": "b"},
 				"retentionDays": 5,
 			}
-			json.NewEncoder(w).Encode(resp)
+			if err := json.NewEncoder(w).Encode(resp); err != nil {
+				t.Fatalf("encode response: %v", err)
+			}
 		case http.MethodDelete:
 			w.WriteHeader(204)
 		}

@@ -44,9 +44,15 @@ func dataSourceProjectRead(ctx context.Context, d *schema.ResourceData, meta int
 	}
 
 	d.SetId(resp.ID)
-	d.Set("name", resp.Name)
-	d.Set("metadata", resp.Metadata)
-	d.Set("retention", resp.RetentionDays)
+	if err := d.Set("name", resp.Name); err != nil {
+		return diag.FromErr(err)
+	}
+	if err := d.Set("metadata", resp.Metadata); err != nil {
+		return diag.FromErr(err)
+	}
+	if err := d.Set("retention", resp.RetentionDays); err != nil {
+		return diag.FromErr(err)
+	}
 
 	return nil
 }

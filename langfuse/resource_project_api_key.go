@@ -96,12 +96,22 @@ func resourceProjectAPIKeyCreate(ctx context.Context, d *schema.ResourceData, me
 	}
 
 	d.SetId(resp.ID)
-	d.Set("public_key", resp.PublicKey)
-	d.Set("secret_key", resp.SecretKey)
-	d.Set("display_secret_key", resp.DisplaySecretKey)
-	d.Set("created_at", resp.CreatedAt)
+	if err := d.Set("public_key", resp.PublicKey); err != nil {
+		return diag.FromErr(err)
+	}
+	if err := d.Set("secret_key", resp.SecretKey); err != nil {
+		return diag.FromErr(err)
+	}
+	if err := d.Set("display_secret_key", resp.DisplaySecretKey); err != nil {
+		return diag.FromErr(err)
+	}
+	if err := d.Set("created_at", resp.CreatedAt); err != nil {
+		return diag.FromErr(err)
+	}
 	if resp.Note != nil {
-		d.Set("note", *resp.Note)
+		if err := d.Set("note", *resp.Note); err != nil {
+			return diag.FromErr(err)
+		}
 	}
 	return resourceProjectAPIKeyRead(ctx, d, meta)
 }
@@ -129,21 +139,37 @@ func resourceProjectAPIKeyRead(ctx context.Context, d *schema.ResourceData, meta
 		return nil
 	}
 
-	d.Set("public_key", found.PublicKey)
-	d.Set("display_secret_key", found.DisplaySecretKey)
-	d.Set("created_at", found.CreatedAt)
+	if err := d.Set("public_key", found.PublicKey); err != nil {
+		return diag.FromErr(err)
+	}
+	if err := d.Set("display_secret_key", found.DisplaySecretKey); err != nil {
+		return diag.FromErr(err)
+	}
+	if err := d.Set("created_at", found.CreatedAt); err != nil {
+		return diag.FromErr(err)
+	}
 	if found.Note != nil {
-		d.Set("note", *found.Note)
+		if err := d.Set("note", *found.Note); err != nil {
+			return diag.FromErr(err)
+		}
 	}
 	if found.ExpiresAt != nil {
-		d.Set("expires_at", *found.ExpiresAt)
+		if err := d.Set("expires_at", *found.ExpiresAt); err != nil {
+			return diag.FromErr(err)
+		}
 	} else {
-		d.Set("expires_at", "")
+		if err := d.Set("expires_at", ""); err != nil {
+			return diag.FromErr(err)
+		}
 	}
 	if found.LastUsedAt != nil {
-		d.Set("last_used_at", *found.LastUsedAt)
+		if err := d.Set("last_used_at", *found.LastUsedAt); err != nil {
+			return diag.FromErr(err)
+		}
 	} else {
-		d.Set("last_used_at", "")
+		if err := d.Set("last_used_at", ""); err != nil {
+			return diag.FromErr(err)
+		}
 	}
 
 	return nil

@@ -22,7 +22,9 @@ func TestAccProjectAPIKeyResource(t *testing.T) {
 				"displaySecretKey": "disp-sk",
 				"note":             "ci",
 			}
-			json.NewEncoder(w).Encode(resp)
+			if err := json.NewEncoder(w).Encode(resp); err != nil {
+				t.Fatalf("encode response: %v", err)
+			}
 		case http.MethodGet:
 			resp := map[string]interface{}{
 				"apiKeys": []map[string]interface{}{
@@ -35,9 +37,13 @@ func TestAccProjectAPIKeyResource(t *testing.T) {
 					},
 				},
 			}
-			json.NewEncoder(w).Encode(resp)
+			if err := json.NewEncoder(w).Encode(resp); err != nil {
+				t.Fatalf("encode response: %v", err)
+			}
 		case http.MethodDelete:
-			json.NewEncoder(w).Encode(map[string]bool{"success": true})
+			if err := json.NewEncoder(w).Encode(map[string]bool{"success": true}); err != nil {
+				t.Fatalf("encode response: %v", err)
+			}
 		}
 	}))
 	defer server.Close()
