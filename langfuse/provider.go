@@ -57,6 +57,7 @@ func Provider() *schema.Provider {
 		DataSourcesMap: map[string]*schema.Resource{
 			"langfuse_project":          dataSourceProject(),
 			"langfuse_project_api_keys": dataSourceProjectApiKeys(),
+			"langfuse_prompt":           dataSourcePrompt(),
 		},
 	}
 
