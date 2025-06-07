@@ -11,6 +11,11 @@ var (
 	commit  = ""
 )
 
+func init() {
+	// keep linter happy
+	_, _ = version, commit
+}
+
 func main() {
 	plugin.Serve(&plugin.ServeOpts{
 		ProviderFunc: langfuse.Provider,
