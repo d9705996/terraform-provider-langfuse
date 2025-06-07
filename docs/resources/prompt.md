@@ -20,3 +20,11 @@ resource "langfuse_prompt" "example" {
 ## Attributes Reference
 
 * `id` - Prompt ID.
+
+## Import
+
+Prompts can be imported using `project_id` and `prompt_id` separated by a slash:
+
+```shell
+terraform import langfuse_prompt.example <project_id>/<prompt_id>
+```

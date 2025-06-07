@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
@@ -38,6 +39,9 @@ func resourceProjectAPIKey() *schema.Resource {
 		CreateContext: resourceProjectAPIKeyCreate,
 		ReadContext:   resourceProjectAPIKeyRead,
 		DeleteContext: resourceProjectAPIKeyDelete,
+		Importer: &schema.ResourceImporter{
+			StateContext: resourceProjectAPIKeyImport,
+		},
 		Schema: map[string]*schema.Schema{
 			"project_id": {
 				Type:     schema.TypeString,
@@ -184,4 +188,16 @@ func resourceProjectAPIKeyDelete(ctx context.Context, d *schema.ResourceData, me
 	}
 	d.SetId("")
 	return nil
+}
+
+func resourceProjectAPIKeyImport(ctx context.Context, d *schema.ResourceData, meta interface{}) ([]*schema.ResourceData, error) {
+	parts := strings.Split(d.Id(), "/")
+	if len(parts) != 2 {
+		return nil, fmt.Errorf("unexpected format of ID (%s), expected project_id/api_key_id", d.Id())
+	}
+	if err := d.Set("project_id", parts[0]); err != nil {
+		return nil, err
+	}
+	d.SetId(parts[1])
+	return []*schema.ResourceData{d}, nil
 }
