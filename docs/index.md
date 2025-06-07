@@ -3,6 +3,8 @@
 
 The Langfuse provider allows Terraform to manage Langfuse projects using the public API.
 
+**Note:** This provider is a work in progress. Release artifacts may not yet be available on the GitHub releases page.
+
 ## Configuration
 
 ```hcl
