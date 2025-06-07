@@ -19,6 +19,7 @@ The `host` can also be set via the `LANGFUSE_HOST` environment variable. The `us
 
 * [langfuse_project](resources/project.md)
 * [langfuse_project_api_key](resources/project_api_key.md)
+* [langfuse_prompt](resources/prompt.md)
 
 ## Data Sources
 
