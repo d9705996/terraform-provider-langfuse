@@ -7,10 +7,12 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
 func TestAccProjectAPIKeyResource(t *testing.T) {
+	var deleted bool
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {
 		case http.MethodPost:
@@ -41,6 +43,7 @@ func TestAccProjectAPIKeyResource(t *testing.T) {
 				t.Fatalf("encode response: %v", err)
 			}
 		case http.MethodDelete:
+			deleted = true
 			if err := json.NewEncoder(w).Encode(map[string]bool{"success": true}); err != nil {
 				t.Fatalf("encode response: %v", err)
 			}
@@ -51,6 +54,12 @@ func TestAccProjectAPIKeyResource(t *testing.T) {
 	resource.UnitTest(t, resource.TestCase{
 		PreCheck:          func() { testAccPreCheck(t) },
 		ProviderFactories: providerFactories,
+		CheckDestroy: func(s *terraform.State) error {
+			if !deleted {
+				return fmt.Errorf("api key not deleted")
+			}
+			return nil
+		},
 		Steps: []resource.TestStep{
 			{
 				Config: testAccProjectAPIKey(server.URL),
