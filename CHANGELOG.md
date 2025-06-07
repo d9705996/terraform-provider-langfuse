@@ -14,4 +14,16 @@
    - PR: #6
 - Switch changelog builder
    - PR: #7
+- Allow host configuration via env var
+   - PR: #8
+- Switch to terraform-plugin-testing
+   - PR: #9
+- Add goreleaser workflow
+   - PR: #10
+- Fix Go version setup in workflow
+   - PR: #11
+- Add prompt resource
+   - PR: #12
+- Add resource import capability
+   - PR: #13
 
