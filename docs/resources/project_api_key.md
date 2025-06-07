@@ -26,3 +26,11 @@ resource "langfuse_project_api_key" "key" {
 * `created_at` - Creation timestamp.
 * `expires_at` - Expiration timestamp if configured.
 * `last_used_at` - Timestamp of last usage if available.
+
+## Import
+
+Project API keys can be imported using the project ID and API key ID separated by a slash:
+
+```shell
+terraform import langfuse_project_api_key.key <project_id>/<api_key_id>
+```

@@ -22,6 +22,9 @@ func resourcePrompt() *schema.Resource {
 		ReadContext:   resourcePromptRead,
 		UpdateContext: resourcePromptUpdate,
 		DeleteContext: resourcePromptDelete,
+		Importer: &schema.ResourceImporter{
+			StateContext: resourcePromptImport,
+		},
 		Schema: map[string]*schema.Schema{
 			"project_id": {
 				Type:     schema.TypeString,
@@ -104,4 +107,16 @@ func resourcePromptDelete(ctx context.Context, d *schema.ResourceData, meta inte
 	tflog.Trace(ctx, "deleted prompt")
 	d.SetId("")
 	return nil
+}
+
+func resourcePromptImport(ctx context.Context, d *schema.ResourceData, meta interface{}) ([]*schema.ResourceData, error) {
+	parts := strings.Split(d.Id(), "/")
+	if len(parts) != 2 {
+		return nil, fmt.Errorf("unexpected format of ID (%s), expected project_id/prompt_id", d.Id())
+	}
+	if err := d.Set("project_id", parts[0]); err != nil {
+		return nil, err
+	}
+	d.SetId(parts[1])
+	return []*schema.ResourceData{d}, nil
 }

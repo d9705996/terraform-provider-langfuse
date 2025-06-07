@@ -24,3 +24,11 @@ resource "langfuse_project" "example" {
 ## Attributes Reference
 
 * `id` - Project ID.
+
+## Import
+
+Projects can be imported using the project ID:
+
+```shell
+terraform import langfuse_project.example <project_id>
+```
