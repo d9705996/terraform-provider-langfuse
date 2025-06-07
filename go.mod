@@ -1,8 +1,8 @@
 module github.com/langfuse/terraform-provider-langfuse
 
-go 1.23.0
+go 1.24.0
 
-toolchain go1.23.8
+toolchain go1.24.3
 
 require (
 	github.com/hashicorp/terraform-plugin-log v0.9.0
